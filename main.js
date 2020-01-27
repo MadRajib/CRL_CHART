@@ -1,39 +1,84 @@
-$( "#form1" ).submit(function( event ) {
-    event.preventDefault();
+$("#measurement").on('change', function(){
+    calculate()
+});
 
-    var gsac = $("#measurement").val();
-    var scale = $("#dropdownMenuButton").html(); 
+function calculate(){
+    $("#gage").val("weeks");
+    var measurement = parseFloat($("#measurement").val());
+    if (measurement == 0) return; 
+    var cat = $("#categoryButton").html().trim();
+    var scale = $("#scaleButton").html().trim(); 
+
     if(scale == "cm"){
-        gsac = parseInt(parseFloat(gsac)*10);
+        measurement = parseInt(measurement*10);
     }
-    console.log(gsac)
+
+    // console.log(gsac)
     loadJSON(function(response) {
         // Parse JSON string into object
         var data = JSON.parse(response);
         
-        table = data.G_SAC_DATA.G_SAC_TABLE_MM;
-        table.forEach(element => {
-            if(element.gsac == gsac){
-                alert("Gestational Age :"+ element.gage);
+        if(cat=="CRL"){
+            mn = parseFloat(data.DATA.tables[0].min)
+            mx = parseFloat(data.DATA.tables[0].max)
+            if (measurement<mn || measurement>mx){
+                $("#gage").val("weeks");
+                alert("Not in range!");
+                
                 return;
             }
-        });
+                
+            
+            table = data.DATA.CRL_TABLE_MM;
+            table.forEach(element => {
+                if(parseInt(element.crl) == measurement){
+                    
+                    $("#gage").val(element.gage +" weeks");
+                    return;
+                }
+            });
+        }else{
+            mn = parseFloat(data.DATA.tables[1].min)
+            mx = parseFloat(data.DATA.tables[1].max)
+            if (measurement<mn || measurement>mx){
+                $("#gage").val("weeks");
+                alert("Not in range!");
+                return;
+            }
+            table = data.DATA.G_SAC_TABLE_MM;
+            table.forEach(element => {
+                if(parseInt(element.gsac) == measurement){
+                    
+                    $("#gage").val(element.gage +" weeks");
+                    return;
+                }
+            });
+        }
+
+        
         
     });
+}
 
-});
-
-$(".dropdown-menu a").click(function(){
+$("#categoryDropdown a").click(function(){
     var selText = $(this).text();
-    
-    $("#dropdownMenuButton").html(selText); 
+    // console.log(selText)
+    $("#categoryButton").html(selText);
+    calculate(); 
+  });
+
+  $("#scaleDropdown a").click(function(){
+    var selText = $(this).text();
+    // console.log(selText)
+    $("#scaleButton").html(selText);
+    calculate(); 
   });
 
 function loadJSON(callback) {   
 
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
-    xobj.open('GET', 'G_SAC_DATA.json', true);
+    xobj.open('GET', 'DATA.json', true);
     xobj.onreadystatechange = function () {
         if (xobj.readyState == 4 && xobj.status == "200") {
             callback(xobj.responseText);

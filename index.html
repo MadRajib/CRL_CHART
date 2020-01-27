@@ -28,28 +28,47 @@
     </nav>
 
 
-    <div class="container-fluid">
+    <div class="d-flex justify-content-center mt-5">
 
-
-        <form id="form1" class="form-inline">
-            <div class="form-group mb-2">
-                <input required type="number" name="GSAC" min=0 max=100 step="any" class="form-control" id="measurement"
-                    placeholder="measurement">
-            </div>
-            <div class="form-group mx-sm-3 mb-2">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        mm
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">mm</a>
-                        <a class="dropdown-item" href="#">cm</a>
+        <form id="form1">
+            <div class="form-row">
+                <div class="col-3">
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="categoryButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            G.Sac
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="categoryButton" id="categoryDropdown">
+                            <a class="dropdown-item" href="#">G.Sac</a>
+                            <a class="dropdown-item" href="#">CRL</a>
+                        </div>
                     </div>
                 </div>
+                <div class="col">
+                    <input type="number" class="form-control" id="measurement" value="0">
+                </div>
 
+                <div class="col">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="scaleButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">mm</button>
+                        <div class="dropdown-menu" aria-labelledby="scaleDropdown" id="scaleDropdown">
+                            <a class="dropdown-item" href="#">mm</a>
+                            <a class="dropdown-item" href="#">cm</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary mb-2">Check</button>
+            <div class="form-row mt-4">
+                <div class="col-3">
+                    <label for="gage" class=""><h3><span class= "badge badge-primary">G.Age</span></h3></label>
+                </div>
+                <div class="col-7">
+                  <input type="text" class="form-control" placeholder="Weeks" id="gage" readonly>
+                </div>
+                
+              </div>
+            
         </form>
 
     </div>
@@ -63,7 +82,7 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
 
-<script src="main.js"></script>
+    <script src="main.js"></script>
 </body>
 
 </html>
